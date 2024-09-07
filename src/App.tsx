@@ -6,6 +6,7 @@ import Home from './sections/Home';
 import CostCalculation from './sections/CostCalculation';
 import GetStarted from './sections/GetStarted';
 
+function App() {
   return (
     <div className="App">
      <HashRouter>
