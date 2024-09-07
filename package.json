@@ -14,6 +14,8 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@types/three": "^0.168.0",
+    "antd": "^5.20.5",
+    "hamburger-react": "^2.5.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
@@ -23,10 +25,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "postinstall": "npm run generate-openapi-client",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-openapi-client": "swagger-typescript-api -p https://goldencastle.azurewebsites.net/swagger/v1/swagger.json -o ./src/_generated-openapi/ --modular"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "swagger-typescript-api": "^13.0.22"
   }
 }

@@ -1,14 +1,12 @@
 import React from "react";
 import SearchForm from "../components/SearchForm";
 
-const Home = () => {
+const Business = () => {
   return (
-    <div className="home">
+    <div className="home-business">
       <div className="body">
         <h1 className="heading1">
-          Power with your home Solar,
-          <br />
-          Save for 25 years.
+        Empower Your Business with Solar Energy <br/>— Save for 25 Years.
         </h1>
       </div>
       <span className="span"/>
@@ -17,4 +15,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Business;

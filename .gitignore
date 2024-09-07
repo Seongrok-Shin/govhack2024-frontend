@@ -11,6 +11,9 @@
 # production
 /build
 
+# ignore generated api files
+/src/_generated-openapi/
+
 # misc
 .DS_Store
 .env.local

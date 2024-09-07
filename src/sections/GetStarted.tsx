@@ -1,8 +1,11 @@
+import React from 'react'
 
-// video footage by 3d model.
-const GetStarted = () =>{
-    return (<>
-    <div></div></>);
-};
+const GetStarted = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
 
-export default GetStarted;
+export default GetStarted
