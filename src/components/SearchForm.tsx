@@ -5,7 +5,6 @@ import SearchButton from "./SearchButton";
 const SearchForm = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event);
   };
 
   return (
