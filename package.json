@@ -17,10 +17,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "postinstall": "npm run generate-openapi-client",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-openapi-client": "swagger-typescript-api -p https://goldencastle.azurewebsites.net/swagger/v1/swagger.json -o ./src/_generated-openapi/ --modular"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "swagger-typescript-api": "^13.0.22"
   }
 }

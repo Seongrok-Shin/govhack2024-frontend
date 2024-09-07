@@ -1,8 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { weatherForecastClient } from './api/api';
 
-function App() {
+async function App() {
+  // Commented out as CORS currently blocks.
+  // This is the example on how to call API
+  
+  // const forecast = await weatherForecastClient.getWeatherForecast();
+  // console.log("RES", forecast);
+
   return (
     <div className="App">
       <header className="App-header">
