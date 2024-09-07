@@ -1,122 +1,134 @@
-// Home three js.
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import * as Three from "three";
-//fbx loader
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-const CostCalculation = () => {
-  let sunObject = new Three.Object3D();
-  const scene = new Three.Scene();
-  const renderer = new Three.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-  });
-  const fbxLoader = new FBXLoader();
-  const rendererDomElement = document.getElementById("renderer");
-  if (rendererDomElement != null) {
-    rendererDomElement.appendChild(renderer.domElement);
-  }
-  function GetWidth():number {
-    if (rendererDomElement == null) return 0;
-    return parseInt(window.getComputedStyle(rendererDomElement).width);
-  }
-  function GetHeight():number {
-    if (rendererDomElement == null) return 0;
-    return parseInt(window.getComputedStyle(rendererDomElement).height);
-  }
-  const screen: any = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
-  //othgraphic view in three js.
-  //color code
-  const c_white = 0xffffff;
-  const camera = new Three.PerspectiveCamera(
-    45,
-    GetWidth() / GetHeight(),
-    0.1,
-    100
-  );
-  const labelRenderer = new CSS3DRenderer();
-  labelRenderer.setSize(window.innerWidth, window.innerHeight);
-  labelRenderer.domElement.style.top = "0px";
-  labelRenderer.domElement.style.position = "absolute";
-  document.body.appendChild(labelRenderer.domElement);
-  const orbitControls = new OrbitControls(camera, labelRenderer.domElement);
-  const Init = () => {
-    if (scene != null) {
-      for (var i = scene.children.length - 1; i >= 0; i--) {
-        let obj = scene.children[i];
-        scene.remove(obj);
-      }
+const CostCalculation: React.FC = () => {
+  const rendererRef = useRef<HTMLDivElement | null>(null); // Reference to the container div
+  const sunObjectRef = useRef<Three.Object3D | null>(null); // Reference to the sun object
+
+  useEffect(() => {
+    const scene = new Three.Scene();
+    const renderer = new Three.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+    });
+
+    if (rendererRef.current) {
+      rendererRef.current.appendChild(renderer.domElement);
     }
-    scene.background = new Three.Color("black");
-    renderer.setSize(window.innerWidth, window.innerHeight);
-   
-    //camera
+
+    // Size of the renderer
+    const width = 600;
+    const height = 600;
+    renderer.setSize(width, height);
+
+    const camera = new Three.PerspectiveCamera(
+      45,
+      width / height,
+      0.1,
+      100
+    );
     camera.position.z = 20;
-    scene.add(camera);
 
-    fbxLoader.load(
-      "model/fbx/sun.fbx",
-      function OnLoad(object: any) {
-        sunObject = object;
-        scene.add(object);
-        object.position.set(0, 5, 0);
-        object.scale.set(0.005, 0.005, 0.005);
-        object.rotateY(0);
-        object.rotateZ(-0.12);
-      },
-      undefined,
-      function OnError(error: any) {
-        console.error(error);
-      }
-    );
-    // fbx loading the model
-    fbxLoader.load(
-      "model/fbx/fullHouse.fbx",
-      function OnLoad(object: Three.Group<Three.Object3DEventMap>) {
-        scene.add(object);
-        object.position.set(0, 0, 0);
-        object.scale.set(0.005, 0.005, 0.005);
-        object.rotateY(-1.9);
-        object.rotateZ(-0.12);
-      },
-      undefined,
-      function OnError(error: any) {
-        console.error(error);
-      }
-    );
-    //Setting up the lights
-    const light = new Three.AmbientLight(c_white, 0.1);
-    light.position.set(0, 10, 0);
-    light.intensity = 3;
-    scene.add(light);
+    const labelRenderer = new CSS3DRenderer();
+    labelRenderer.setSize(width, height);
+    labelRenderer.domElement.style.top = "0px";
+    labelRenderer.domElement.style.position = "absolute";
+    document.body.appendChild(labelRenderer.domElement);
 
-    //point lights
-    const pointLight = new Three.PointLight(c_white, 1, 1000);
-    pointLight.position.set(0, 5, 0);
-    pointLight.intensity = 30;
-    scene.add(pointLight);
+    const orbitControls = new OrbitControls(camera, labelRenderer.domElement);
     orbitControls.enableDamping = true;
     orbitControls.enablePan = false;
     orbitControls.enableZoom = true;
-  };
 
-  function animate() {
-    orbitControls.update();
-    sunObject.rotateZ(0.005);
-    camera.updateProjectionMatrix();
-    renderer.render(scene, camera);
-  }
-  useEffect(() => {
+    function Init() {
+      // Clear existing objects
+      scene.clear();
+
+      scene.background = new Three.Color("black");
+
+      const fbxLoader = new FBXLoader();
+      fbxLoader.load(
+        "model/fbx/sun.fbx",
+        (object: Three.Object3D) => {
+          sunObjectRef.current = object;
+          scene.add(object);
+          object.position.set(0, 6, 0);
+          object.scale.set(0.01, 0.01, 0.01);
+          object.rotateY(0);
+          object.rotateZ(-0.12);
+        },
+        undefined,
+        (error: any) => {
+          console.error(error);
+        }
+      );
+
+      fbxLoader.load(
+        "model/fbx/fullHouse.fbx",
+        (object: Three.Group) => {
+          scene.add(object);
+          object.position.set(0, -3, 0);
+          object.scale.set(0.01, 0.01, 0.01);
+          object.rotateY(-1.9);
+          object.rotateZ(-0.12);
+        },
+        undefined,
+        (error: any) => {
+          console.error(error);
+        }
+      );
+
+      // Setting up the lights
+      const light = new Three.AmbientLight(0xffffff, 0.1);
+      light.position.set(0, 10, 0);
+      light.intensity = 3;
+      scene.add(light);
+
+      const pointLightOne = new Three.PointLight(0xffffff, 30, 1000);
+      pointLightOne.position.set(1, 4, 2);
+      scene.add(pointLightOne);
+    }
+
+    function animate() {
+      orbitControls.update();
+      if (sunObjectRef.current) sunObjectRef.current.rotateZ(0.002);
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+    }
+
     Init();
-  }, [scene, camera]);
-  renderer.setAnimationLoop(animate);
+
+    renderer.setAnimationLoop(animate);
+
+    return () => {
+      if (rendererRef.current) {
+        rendererRef.current.removeChild(renderer.domElement);
+      }
+      document.body.removeChild(labelRenderer.domElement);
+    };
+  }, []);
+
   return (
     <>
-      <div id="renderer"> </div>
+    <div style={{backgroundColor: 'black', position: 'absolute', width: "100%", height: "100%" ,zIndex : -1}}>
+    <div
+      ref={rendererRef}
+      style={{                width: '600px',
+        height: '600px',
+        margin: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        marginLeft: '50px',
+        marginTop: '100px'}}
+    ></div>
+    <div>
+        Sup
+    </div>
+    </div>
     </>
   );
 };
