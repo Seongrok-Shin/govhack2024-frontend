@@ -1,31 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { weatherForecastClient } from './api/api';
+import './css/App.css';
+import {HashRouter, Routes, Route} from 'react-router-dom'
 
-async function App() {
-  // Commented out as CORS currently blocks.
-  // This is the example on how to call API
-  
-  // const forecast = await weatherForecastClient.getWeatherForecast();
-  // console.log("RES", forecast);
+//Pages
+import Home from './sections/Home';
+import CostCalculation from './sections/CostCalculation';
+import GetStarted from './sections/GetStarted';
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <HashRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/costcalculation' element={<CostCalculation/>} />
+        <Route path='/getstarted' element={<GetStarted />} />
+      </Routes>
+     </HashRouter>
     </div>
   );
 }
