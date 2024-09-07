@@ -8,7 +8,7 @@ import GetStarted from './sections/GetStarted';
 
 function App() {
   return (
-    <div className="App">
+    <div>
      <HashRouter>
       <Routes>
         <Route path='/' element={<Home />} />
