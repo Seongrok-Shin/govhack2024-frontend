@@ -112,7 +112,7 @@ const CostCalculation: React.FC = () => {
 
   return (
     <>
-    <div style={{backgroundColor: 'black', position: 'absolute', width: "100%", height: "100%" ,zIndex : -1}}>
+    <div style={{backgroundColor: 'black', position: 'absolute', width: "100%", height: "100%" ,zIndex : -1, display:"flex"}}>
     <div
       ref={rendererRef}
       style={{                width: '600px',
@@ -123,10 +123,25 @@ const CostCalculation: React.FC = () => {
         alignItems: 'center',
         position: 'relative',
         marginLeft: '50px',
-        marginTop: '100px'}}
+        marginTop: '100px',
+        flex: 1
+        }}
     ></div>
-    <div>
-        Sup
+    <div style={{color: "white",flex:1, height: '600px', width:'600px', marginTop:'100px', marginRight:'50px'}}>
+        <h3>ORDER SOLARCAST</h3>
+        <br></br>
+        <p>123 Maple Street, Auckland Central,  6011, New Zealand</p>
+        <p>It is available in your address</p>
+        <br></br>
+        <h3>Value of Solar Power Generated</h3>
+        <h2>$1,154 - $1,924/year</h2>
+        <br></br>
+        <p>Home Solar Potential</p>
+        <br></br>
+        <h3>Excellence</h3>
+        <br></br>
+        <p>Can save NZ$1200/year and NZ$20000 for Installation.</p>
+
     </div>
     </div>
     </>
