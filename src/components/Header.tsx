@@ -9,7 +9,7 @@ const Header = () => {
     <div style={{ width: "100%", height: "0px" }}>
       <nav>
         <div className="nav-mobile">
-          <h2>Solar Cast</h2>
+          <h2>SOLARCAST</h2>
           <div className="nav-option">
             <div className="options">
               <a href="#" className="option-personal">

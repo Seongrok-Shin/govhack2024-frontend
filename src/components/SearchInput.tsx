@@ -28,7 +28,6 @@ const SearchInput = () => {
   return (
     <AutoComplete
       className="search-box"
-      allowClear
       value={input}
       onChange={onChange}
       options={options}
