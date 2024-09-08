@@ -47,8 +47,8 @@ const CostCalculation: any = (status: number) => {
 
     // weather active status
     // Size of the renderer
-    const width = 300;
-    const height = 300;
+    const width = 600;
+    const height = 600;
     renderer.setSize(width, height);
 
     const camera = new Three.PerspectiveCamera(45, width / height, 0.1, 100);
@@ -191,13 +191,10 @@ const CostCalculation: any = (status: number) => {
     <>
       <div className="cost-body">
         <div ref={rendererRef} className="cost-render">
-
-        <div className="mapboxgl"> </div>
         </div>
         <div className="cost-description">
           <h3>ORDER SOLARCAST</h3>
           <br></br>
-          {/* 123 Maple Street, Auckland Central, 6011, New Zealand  */}
           <p>{selectedProperty.title}</p>
           <p>It is available in your address</p>
           <br></br>
@@ -222,7 +219,6 @@ const CostCalculation: any = (status: number) => {
             for installing solar panels and an additional NZD 2,000 for adding a
             battery storage system
           </p>
-          {/* <div className="mapboxgl"> </div> */}
         </div>
       </div>
     </>
