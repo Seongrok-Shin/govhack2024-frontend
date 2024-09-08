@@ -8,9 +8,6 @@ import { useLocation } from "react-router-dom";
 import { SearchPropertyResultDto } from "../_generated-openapi/data-contracts";
 import { usePropertyDetails } from "../hooks/usePropertyDetails";
 
-//mapbox gl
-import mapboxgl from "mapbox-gl";
-
 export type CostCalculationState = {
   selectedProperty: SearchPropertyResultDto;
 };
@@ -33,18 +30,17 @@ const CostCalculation: any = (status: number) => {
     return Math.floor(Math.random() * max);
   }
   //mapbox api key
-  mapboxgl.accessToken = "";
   useEffect((): any => {
     const scene = new Three.Scene();
     const renderer = new Three.WebGLRenderer({
       antialias: true,
       alpha: true,
     });
-
+    
     if (rendererRef.current) {
       rendererRef.current.appendChild(renderer.domElement);
     }
-
+    
     // weather active status
     // Size of the renderer
     const width = 600;
@@ -55,10 +51,10 @@ const CostCalculation: any = (status: number) => {
     camera.position.z = 20;
 
     const labelRenderer = new CSS3DRenderer();
-    labelRenderer.setSize(width, height);
+    labelRenderer.setSize(width + 150, height);
     labelRenderer.domElement.style.margin = "auto";
-    labelRenderer.domElement.style.marginTop = "50px";
-    labelRenderer.domElement.style.marginLeft = "100px";
+    labelRenderer.domElement.style.marginTop = "100px";
+    labelRenderer.domElement.style.marginLeft = "50px";
     labelRenderer.domElement.style.top = "0px";
     labelRenderer.domElement.style.position = "absolute";
     document.body.appendChild(labelRenderer.domElement);

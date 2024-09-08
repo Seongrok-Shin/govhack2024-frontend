@@ -195,11 +195,12 @@ nav .nav-mobile .options .option-business {
 }
 
 .mapboxgl {
-  top: 300px;
+  top: 120px;
   position: absolute;
-  background-color: blue;
+  background-color: white;
   width: 480px;
   height: 250px;
+  margin-left: 50px;
 }
 
 @media screen and (min-width: 922px) {
