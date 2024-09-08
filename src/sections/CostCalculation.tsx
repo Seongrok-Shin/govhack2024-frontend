@@ -167,18 +167,18 @@ const CostCalculation: any = (status: number) => {
     renderer.setAnimationLoop(animate);
 
 
-    if (propertyDetails == null) {
-      return <div>Loading...</div>;
-    }
 
     return () => {
       if (rendererRef.current) {
         rendererRef.current.removeChild(renderer.domElement);
       }
+      else if (propertyDetails == null) {
+        console.log("being called");
+        return <div>Loading...</div>;
+      }
       document.body.removeChild(labelRenderer.domElement);
     };
   }, []);
-
   
   return (
     <>
@@ -230,7 +230,7 @@ const CostCalculation: any = (status: number) => {
           <h3>Excellence</h3>
           <br></br>
           <p>Can save NZ$1200/year and NZ$20000 for Installation.</p>
-          <div>MEOW!</div>
+          
         </div>
       </div>
     </>
