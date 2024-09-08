@@ -3,11 +3,30 @@ import * as Three from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+import { useLocation } from "react-router-dom";
+import { SearchPropertyResultDto } from "../_generated-openapi/data-contracts";
+import { usePropertyDetails } from "../hooks/usePropertyDetails";
+
+export type CostCalculationState = {
+  selectedProperty: SearchPropertyResultDto;
+};
+
 const CostCalculation: any = (status: number) => {
+  //api
+  const location = useLocation();
+  const selectedProperty = (location.state as CostCalculationState)
+    .selectedProperty;
+
+  console.log("Showing cost calculation for property: ", selectedProperty);
+
+  const propertyDetails = usePropertyDetails(selectedProperty);
+
+  //three js
   const rendererRef = useRef<HTMLDivElement | null>(null); // Reference to the container div
   const weatherObjectRef = useRef<Three.Object3D | null>(null); // Reference to the sun object
-  
-  useEffect(() => {
+
+  useEffect(():any => {
     const scene = new Three.Scene();
     const renderer = new Three.WebGLRenderer({
       antialias: true,
@@ -87,11 +106,11 @@ const CostCalculation: any = (status: number) => {
             object.position.set(0, 4, 0);
             object.scale.set(0.005, 0.005, 0.005);
             object.rotateY(1.0);
-          } else if (rainyCloud){
+          } else if (rainyCloud) {
             object.position.set(0, 4, 0);
             object.scale.set(0.005, 0.005, 0.005);
             object.rotateY(1.0);
-          } 
+          }
           object.rotateZ(-0.12);
         },
         undefined,
@@ -116,7 +135,7 @@ const CostCalculation: any = (status: number) => {
       );
       const c_white: number = 0xffffff;
       const c_warmYellow: number = 0xfffba0;
-      const c_darkBlue:number = 0x00008B;
+      const c_darkBlue: number = 0x00008b;
       // Setting up the lights
       const ambientLight = new Three.AmbientLight(c_white, 4);
       ambientLight.position.set(0, 10, 0);
@@ -147,6 +166,11 @@ const CostCalculation: any = (status: number) => {
 
     renderer.setAnimationLoop(animate);
 
+
+    if (propertyDetails == null) {
+      return <div>Loading...</div>;
+    }
+
     return () => {
       if (rendererRef.current) {
         rendererRef.current.removeChild(renderer.domElement);
@@ -155,6 +179,7 @@ const CostCalculation: any = (status: number) => {
     };
   }, []);
 
+  
   return (
     <>
       <div
@@ -205,9 +230,7 @@ const CostCalculation: any = (status: number) => {
           <h3>Excellence</h3>
           <br></br>
           <p>Can save NZ$1200/year and NZ$20000 for Installation.</p>
-          <div>
-            MEOW!
-          </div>
+          <div>MEOW!</div>
         </div>
       </div>
     </>

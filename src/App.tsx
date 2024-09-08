@@ -7,7 +7,7 @@ import CostCalculation from "./sections/CostCalculation";
 import GetStarted from "./sections/GetStarted";
 import Header from "./components/Header";
 import Business from "./sections/Business";
-import CostCalculationV2 from "./sections/CostCalculationV2";
+
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/business" element={<Business />} />
           <Route path="/costcalculation" element={<CostCalculation />} />
-          <Route path="/costcalculationv2" element={<CostCalculationV2 />} />
           <Route path="/getstarted" element={<GetStarted />} />
         </Routes>
       </HashRouter>
