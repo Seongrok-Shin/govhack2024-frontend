@@ -1,7 +1,7 @@
 import React from "react";
 import { AutoComplete } from "antd";
 import type { AutoCompleteProps } from "antd";
-import address from "../data/address.json";
+import { usePropertySearch } from "../hooks/usePropertySearch";
 
 // const autoValue = (str: string) => ({
 //   input: address.Results[0].Title,
@@ -12,11 +12,10 @@ const SearchInput = () => {
   const [options, setOptions] = React.useState<AutoCompleteProps["options"]>(
     []
   );
-
-  const getPanelValue = (searchText: string) =>
-    !searchText
-      ? []
-      : address.Results.map((result) => ({ value: result.Title }));
+  usePropertySearch(input, (searchResults) => {
+    const options = searchResults.map(property => ({value: property.title}));
+    setOptions(options);
+  });
 
   const onSelect = (data: string) => {
     console.log("onSelect", data);
@@ -35,7 +34,6 @@ const SearchInput = () => {
       options={options}
       style={{ width: 200 }}
       onSelect={onSelect}
-      onSearch={(text) => setOptions(getPanelValue(text))}
       placeholder="input here"
     />
   );
