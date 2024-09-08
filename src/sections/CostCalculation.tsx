@@ -8,6 +8,9 @@ import { useLocation } from "react-router-dom";
 import { SearchPropertyResultDto } from "../_generated-openapi/data-contracts";
 import { usePropertyDetails } from "../hooks/usePropertyDetails";
 
+//mapbox gl
+import mapboxgl from "mapbox-gl";
+
 export type CostCalculationState = {
   selectedProperty: SearchPropertyResultDto;
 };
@@ -26,7 +29,12 @@ const CostCalculation: any = (status: number) => {
   const rendererRef = useRef<HTMLDivElement | null>(null); // Reference to the container div
   const weatherObjectRef = useRef<Three.Object3D | null>(null); // Reference to the sun object
 
-  useEffect(():any => {
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
+  //mapbox api key
+  mapboxgl.accessToken = "";
+  useEffect((): any => {
     const scene = new Three.Scene();
     const renderer = new Three.WebGLRenderer({
       antialias: true,
@@ -39,8 +47,8 @@ const CostCalculation: any = (status: number) => {
 
     // weather active status
     // Size of the renderer
-    const width = 600;
-    const height = 600;
+    const width = 300;
+    const height = 300;
     renderer.setSize(width, height);
 
     const camera = new Three.PerspectiveCamera(45, width / height, 0.1, 100);
@@ -48,6 +56,9 @@ const CostCalculation: any = (status: number) => {
 
     const labelRenderer = new CSS3DRenderer();
     labelRenderer.setSize(width, height);
+    labelRenderer.domElement.style.margin = "auto";
+    labelRenderer.domElement.style.marginTop = "50px";
+    labelRenderer.domElement.style.marginLeft = "100px";
     labelRenderer.domElement.style.top = "0px";
     labelRenderer.domElement.style.position = "absolute";
     document.body.appendChild(labelRenderer.domElement);
@@ -66,9 +77,9 @@ const CostCalculation: any = (status: number) => {
       scene.background = new Three.Color("black");
 
       const fbxLoader = new FBXLoader();
-
+      const isStatus: number = getRandomInt(3);
       let weather: string = "";
-      switch (status) {
+      switch (isStatus) {
         case 0: {
           weather = "model/fbx/sun.fbx";
           sunny = true;
@@ -166,60 +177,28 @@ const CostCalculation: any = (status: number) => {
 
     renderer.setAnimationLoop(animate);
 
-
-
     return () => {
       if (rendererRef.current) {
         rendererRef.current.removeChild(renderer.domElement);
-      }
-      else if (propertyDetails == null) {
-        console.log("being called");
+      } else if (propertyDetails == null) {
         return <div>Loading...</div>;
       }
       document.body.removeChild(labelRenderer.domElement);
     };
   }, []);
-  
+
   return (
     <>
-      <div
-        style={{
-          backgroundColor: "black",
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          zIndex: -1,
-          display: "flex",
-        }}
-      >
-        <div
-          ref={rendererRef}
-          style={{
-            width: "600px",
-            height: "600px",
-            margin: "auto",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            marginLeft: "50px",
-            marginTop: "100px",
-            flex: 1,
-          }}
-        ></div>
-        <div
-          style={{
-            color: "white",
-            flex: 1,
-            height: "600px",
-            width: "600px",
-            marginTop: "100px",
-            marginRight: "50px",
-          }}
-        >
+      <div className="cost-body">
+        <div ref={rendererRef} className="cost-render">
+
+        <div className="mapboxgl"> </div>
+        </div>
+        <div className="cost-description">
           <h3>ORDER SOLARCAST</h3>
           <br></br>
-          <p>123 Maple Street, Auckland Central, 6011, New Zealand</p>
+          {/* 123 Maple Street, Auckland Central, 6011, New Zealand  */}
+          <p>{selectedProperty.title}</p>
           <p>It is available in your address</p>
           <br></br>
           <h3>Value of Solar Power Generated</h3>
@@ -230,7 +209,20 @@ const CostCalculation: any = (status: number) => {
           <h3>Excellence</h3>
           <br></br>
           <p>Can save NZ$1200/year and NZ$20000 for Installation.</p>
-          
+          <br></br>
+          <br></br>
+          <h2>Carbon Emission</h2>
+          <br></br>
+          <h4>CO2 Emissions Reduced: 32,274g</h4>
+          <h4>Equivalent to Planting: 788 Trees</h4>
+          <br></br>
+          <br></br>
+          <p>
+            You can receive up to NZD 4,000 in rebates, which includes NZD 2,000
+            for installing solar panels and an additional NZD 2,000 for adding a
+            battery storage system
+          </p>
+          {/* <div className="mapboxgl"> </div> */}
         </div>
       </div>
     </>
