@@ -3,4 +3,17 @@
         text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         font-size: 3rem;
     }
+
+    .webgl{
+        width: 600px;
+        height: 600px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-left: 50px;
+        margin-top: 50px;
+    }
+    body{background-color: black;}
 }

@@ -3,7 +3,7 @@ import { AutoComplete } from "antd";
 import type { AutoCompleteProps } from "antd";
 import { usePropertySearch } from "../hooks/usePropertySearch";
 import { useNavigate } from "react-router-dom";
-import { CostCalculationState } from "../sections/CostCalculationV2";
+import { CostCalculationState } from "../sections/CostCalculation";
 
 // const autoValue = (str: string) => ({
 //   input: address.Results[0].Title,
@@ -25,7 +25,7 @@ const SearchInput = () => {
     console.log("Selected property: ", selectedProperty);
 
     const state : CostCalculationState = { selectedProperty };
-    navigate("/costcalculationv2", { state });
+    navigate("/costcalculation", { state });
   };
 
   const onChange = (data: string) => {
