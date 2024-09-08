@@ -71,6 +71,7 @@ nav .nav-mobile {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: "Maven Pro", sans-serif;
 }
 
 nav .nav-mobile .options {
