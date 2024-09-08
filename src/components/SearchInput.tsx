@@ -1,23 +1,31 @@
 import React from "react";
 import { AutoComplete } from "antd";
 import type { AutoCompleteProps } from "antd";
-import address from "../data/address.json";
+import { usePropertySearch } from "../hooks/usePropertySearch";
+import { useNavigate } from "react-router-dom";
+import { CostCalculationState } from "../sections/CostCalculationV2";
 
 // const autoValue = (str: string) => ({
 //   input: address.Results[0].Title,
 // });
 
 const SearchInput = () => {
-  const [input, setInput] = React.useState("");
-  const [options, setOptions] = React.useState<AutoCompleteProps["options"]>(
-    []
-  );
+  const navigate = useNavigate();
+  const [input, setInput] = React.useState(process.env.REACT_APP_FIXED_ADDRESS ?? "");
 
-  const getPanelValue = (searchText: string) =>
-    !searchText ? [] : address.Results.map((result) => ({ value: result.Title }));
+  const properties = usePropertySearch(input);
+  const options : AutoCompleteProps["options"] = properties.map(property => ({value: property.title}));
 
-  const onSelect = (data: string) => {
-    console.log("onSelect", data);
+  const onSelect = (propertyTitle: string) => {
+    const selectedProperty = properties.find(property => property.title === propertyTitle);
+    if (selectedProperty === undefined) {
+      console.error("Could not match selected property to search property results by title. ", propertyTitle, properties);
+      return;
+    }
+    console.log("Selected property: ", selectedProperty);
+
+    const state : CostCalculationState = { selectedProperty };
+    navigate("/costcalculationv2", { state });
   };
 
   const onChange = (data: string) => {
@@ -26,13 +34,12 @@ const SearchInput = () => {
 
   return (
     <AutoComplete
-      allowClear
+      className="search-box"
       value={input}
       onChange={onChange}
       options={options}
       style={{ width: 200 }}
       onSelect={onSelect}
-      onSearch={(text) => setOptions(getPanelValue(text))}
       placeholder="input here"
     />
   );
