@@ -10,6 +10,7 @@ const SearchForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <SearchInput />
+      <span className="search-span"></span>
       <SearchButton />
     </form>
   );

@@ -14,7 +14,9 @@ const SearchInput = () => {
   );
 
   const getPanelValue = (searchText: string) =>
-    !searchText ? [] : address.Results.map((result) => ({ value: result.Title }));
+    !searchText
+      ? []
+      : address.Results.map((result) => ({ value: result.Title }));
 
   const onSelect = (data: string) => {
     console.log("onSelect", data);
@@ -26,6 +28,7 @@ const SearchInput = () => {
 
   return (
     <AutoComplete
+      className="search-box"
       allowClear
       value={input}
       onChange={onChange}
